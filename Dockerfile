@@ -5,4 +5,4 @@ WORKDIR /app
 COPY package.json .
 RUN yarn
 COPY . .
-CMD yarn ts-node-dev app.ts
+CMD ["yarn", "start"]

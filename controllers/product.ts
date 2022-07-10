@@ -32,16 +32,14 @@ export class ProductController {
         }
     };
 
+    helloApi =  (req, res) => {
+        return utils.responseUnauthor(res,  200, { message: 'hello'})
+    }
 
     getAllProducts = async (req, res) => {
         try {
-            const checkLogin = req.headers['authorization']
             const products = await productService.findAllProducts();
-
-            if (checkLogin === undefined) {
-                return utils.responseUnauthor(res, 200, products)
-            }
-            return utils.sendRespond(res, utils.getAccessToken(req), 200, products)
+            return utils.responseUnauthor(res,  200, products)
 
         } catch (error) {
             utils.responseUnauthor(res, 400, { error: error })

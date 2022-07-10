@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database-mongo
+spec:
+  selector:
+    matchLabels:
+      app: database-mongo
+  template:
+    metadata:
+      labels:
+        app: database-mongo
+    spec:
+      containers:
+      - name: database-mongo
+        image: mongo:3.6.8
+        volumeMounts:
+          - mountPath: /data/db
+            name: mongo-persistent-storage
+        resources:
+          limits:
+            memory: "500Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 27017
+        env:
+          - name: MONGO_INITDB_ROOT_USERNAME
+            value: ""
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            value: ""
+      volumes:
+        - name: mongo-persistent-storage
+          persistentVolumeClaim:
+            claimName: database-pvc

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-t20
+spec:
+  selector:
+    matchLabels:
+      app: server-t20
+  template:
+    metadata:
+      labels:
+        app: server-t20
+    spec:
+      containers:
+      - name: server-t20
+        image: tuanminh009/server-t20
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8000
+        env:
+          - name: BCRYPT_SALT
+            value: '10'
+          - name: PORT
+            value: '8000'
+          - name: TOKEN_SECRET
+            value: 'abc-def-ghj'
+          - name: DB_HOST
+            value: database-service
+          - name: DB_PORT
+            value: '27017'
+          - name: DB_USER
+            value: ''
+          - name: DB_PASSWORD
+            value: ''
+          - name: DB_NAME
+            value: 'T20CNW'

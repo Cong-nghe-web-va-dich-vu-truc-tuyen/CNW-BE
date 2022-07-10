@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-t20
+spec:
+  selector:
+    matchLabels:
+      app: client-t20
+  template:
+    metadata:
+      labels:
+        app: client-t20
+    spec:
+      containers:
+      - name: client-t20
+        image: tuanminh009/client-t20
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000

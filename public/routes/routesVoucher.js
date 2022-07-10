@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const voucher_1 = require("../controllers/voucher");
+const Router_1 = require("./Router");
+const userRequired_1 = require("../middlewares/userRequired");
+const router = new Router_1.Router();
+const controllers = new voucher_1.VoucherController();
+const required = new userRequired_1.Required();
+router.get('/voucher/list', controllers.getAllVouchers);
+router.post('/voucher/detail', controllers.getVoucher);
+router.post('/voucher/delete', required.adminRequired, controllers.deleteVoucher);
+router.post('/voucher/update', required.adminRequired, controllers.updateVoucher);
+router.post('/voucher/create-voucher', required.adminRequired, controllers.createVoucher);
+exports.default = router;
