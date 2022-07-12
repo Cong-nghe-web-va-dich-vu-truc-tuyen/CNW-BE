@@ -27,7 +27,7 @@ const pathUnthorize = [
     '/voucher/detail',
     '/comments',
     '/comment/reply',
-    '/hello'
+    '/comment/post' 
 ]
 
 const server = http.createServer(async (req, res) => {
