@@ -1,5 +1,5 @@
-import { IOrder, OrderStatus } from '../models/order';
-import { BasicService } from './basicService';
+import { IOrder, OrderStatus } from "../models/order";
+import { BasicService } from "./basicService";
 export declare class OrderService extends BasicService {
     getAllOrders(): Promise<IOrder[]>;
     getOrderById(args: {
@@ -15,4 +15,7 @@ export declare class OrderService extends BasicService {
     createOrder(args: {
         data: any;
     }): Promise<IOrder>;
+    getOrderByIdUser(args: {
+        id: string;
+    }): Promise<IOrder[]>;
 }

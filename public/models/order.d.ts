@@ -9,6 +9,8 @@ export interface IOrder {
     status: OrderStatus;
     createdAt?: string;
     updatedAt?: string;
+    size: number[];
+    amount: number[];
 }
 export declare enum OrderStatus {
     pending = 0,
@@ -26,5 +28,7 @@ export declare class OrderInfo {
     status: OrderStatus;
     createdAt?: string;
     updatedAt?: string;
+    size: number[];
+    amount: number[];
     constructor(arg?: any);
 }

@@ -30,6 +30,20 @@ class OrderController {
                 utils.responseUnauthor(res, 400, { error: error });
             }
         });
+        this.getOrderByIdUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                let data = "";
+                req.on("data", (chunk) => __awaiter(this, void 0, void 0, function* () {
+                    data += chunk.toString();
+                    const body = JSON.parse(data);
+                    const orders = yield orderService.getOrderByIdUser({ id: body.id });
+                    utils.sendRespond(res, utils.getAccessToken(req), 200, orders);
+                }));
+            }
+            catch (error) {
+                utils.responseUnauthor(res, 400, { error: error });
+            }
+        });
         this.getOrder = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 let data = "";
@@ -37,11 +51,15 @@ class OrderController {
                     data += chunk.toString();
                     const body = JSON.parse(data);
                     if (!mongoose_1.default.isValidObjectId(body.id)) {
-                        return utils.sendRespond(res, utils.getAccessToken(req), 404, { message: "Không tìm thấy đơn hàng" });
+                        return utils.sendRespond(res, utils.getAccessToken(req), 404, {
+                            message: "Không tìm thấy đơn hàng",
+                        });
                     }
                     let order = yield orderService.getOrderById({ id: body.id });
                     if (order._id === undefined) {
-                        return utils.sendRespond(res, utils.getAccessToken(req), 404, { message: "Không tìm thấy đơn hàng" });
+                        return utils.sendRespond(res, utils.getAccessToken(req), 404, {
+                            message: "Không tìm thấy đơn hàng",
+                        });
                     }
                     return utils.sendRespond(res, utils.getAccessToken(req), 200, order);
                 }));
@@ -57,9 +75,13 @@ class OrderController {
                     data += chunk.toString();
                     const body = JSON.parse(data);
                     if (order_1.OrderStatus[body.status] === undefined) {
-                        return utils.sendRespond(res, utils.getAccessToken(req), 404, { message: "Trạng thái không hợp lệ" });
+                        return utils.sendRespond(res, utils.getAccessToken(req), 404, {
+                            message: "Trạng thái không hợp lệ",
+                        });
                     }
-                    const orders = yield orderService.getOrderByStatus({ status: body.status });
+                    const orders = yield orderService.getOrderByStatus({
+                        status: body.status,
+                    });
                     return utils.sendRespond(res, utils.getAccessToken(req), 200, orders);
                 }));
             }
@@ -74,18 +96,12 @@ class OrderController {
                     data += chunk.toString();
                     const body = JSON.parse(data);
                     const currentUser = yield utils.requestUser(req);
-                    let order = {
-                        _id: undefined,
-                        products: body.products,
-                        totalPrice: body.totalPrice,
-                        userId: currentUser._id,
-                        address: currentUser.address,
-                        phoneNumber: currentUser.phoneNumber,
-                        status: body.status
-                    };
+                    let order = Object.assign(Object.assign({}, body), { _id: undefined, userId: currentUser.id, name: currentUser.name });
                     let orderCreated = yield orderService.createOrder({ data: order });
                     if (orderCreated._id === undefined) {
-                        return utils.sendRespond(res, utils.getAccessToken(req), 400, { message: "Tạo đơn hàng không thành công" });
+                        return utils.sendRespond(res, utils.getAccessToken(req), 400, {
+                            message: "Tạo đơn hàng không thành công",
+                        });
                     }
                     return utils.sendRespond(res, utils.getAccessToken(req), 201, orderCreated);
                 }));
@@ -100,9 +116,14 @@ class OrderController {
                 req.on("data", (chunk) => __awaiter(this, void 0, void 0, function* () {
                     data += chunk.toString();
                     const body = JSON.parse(data);
-                    const orderUpdated = yield orderService.updateOrder({ id: body.id, data: body.data });
+                    const orderUpdated = yield orderService.updateOrder({
+                        id: body._id,
+                        data: body.data,
+                    });
                     if (orderUpdated._id === undefined) {
-                        return utils.sendRespond(res, utils.getAccessToken(req), 400, { message: "Cập nhật thất bại" });
+                        return utils.sendRespond(res, utils.getAccessToken(req), 400, {
+                            message: "Cập nhật thất bại",
+                        });
                     }
                     return utils.sendRespond(res, utils.getAccessToken(req), 201, orderUpdated);
                 }));

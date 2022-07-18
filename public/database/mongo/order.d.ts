@@ -10,6 +10,9 @@ export declare class OrderDb implements IOrderDb {
     getOrderById(args: {
         id: string;
     }): Promise<IOrder>;
+    getOrderByIdUser(args: {
+        id: string;
+    }): Promise<IOrder[]>;
     getOrderByStatus(args: {
         status: OrderStatus;
     }): Promise<IOrder[]>;

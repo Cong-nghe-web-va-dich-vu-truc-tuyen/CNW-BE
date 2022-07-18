@@ -14,4 +14,7 @@ export interface IOrderDb {
     createOrder(args: {
         data: any;
     }): Promise<IOrder>;
+    getOrderByIdUser(args: {
+        id: string;
+    }): Promise<IOrder[]>;
 }

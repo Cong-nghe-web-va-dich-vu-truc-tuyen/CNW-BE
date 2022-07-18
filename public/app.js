@@ -61,7 +61,7 @@ const pathUnthorize = [
     '/voucher/detail',
     '/comments',
     '/comment/reply',
-    '/hello'
+    '/comment/post'
 ];
 const server = http_1.default.createServer((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (pathUnthorize.find((path) => { return path === req.url; })) {

@@ -10,7 +10,7 @@ var OrderStatus;
 })(OrderStatus = exports.OrderStatus || (exports.OrderStatus = {}));
 class OrderInfo {
     constructor(arg) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
         this._id = (_a = arg === null || arg === void 0 ? void 0 : arg._id) !== null && _a !== void 0 ? _a : undefined;
         this.products = (_b = arg === null || arg === void 0 ? void 0 : arg.products) !== null && _b !== void 0 ? _b : [];
         this.totalPrice = (_c = arg === null || arg === void 0 ? void 0 : arg.totalPrice) !== null && _c !== void 0 ? _c : 0;
@@ -20,6 +20,8 @@ class OrderInfo {
         this.status = (_g = arg === null || arg === void 0 ? void 0 : arg.status) !== null && _g !== void 0 ? _g : OrderStatus.pending;
         this.createdAt = (_h = arg === null || arg === void 0 ? void 0 : arg.createdAt) !== null && _h !== void 0 ? _h : "";
         this.updatedAt = (_j = arg === null || arg === void 0 ? void 0 : arg.updatedAt) !== null && _j !== void 0 ? _j : "";
+        this.size = (_k = arg === null || arg === void 0 ? void 0 : arg.size) !== null && _k !== void 0 ? _k : [];
+        this.amount = (_l = arg === null || arg === void 0 ? void 0 : arg.amount) !== null && _l !== void 0 ? _l : [];
     }
 }
 exports.OrderInfo = OrderInfo;

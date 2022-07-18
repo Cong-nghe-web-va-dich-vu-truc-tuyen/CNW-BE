@@ -35,10 +35,16 @@ class UserController {
                         user = yield userService.findUserByEmail({ email: body.email });
                     }
                     if (!user) {
-                        return utils.responseUnauthor(res, 200, { message: "Email or Password not match", status: 0 });
+                        return utils.responseUnauthor(res, 200, {
+                            message: "Email or Password not match",
+                            status: 0,
+                        });
                     }
                     if (!bcryptjs_1.default.compareSync(body.password, user.password)) {
-                        return utils.responseUnauthor(res, 200, { message: "Email or Password not match", status: 0 });
+                        return utils.responseUnauthor(res, 200, {
+                            message: "Email or Password not match",
+                            status: 0,
+                        });
                     }
                     const userFormatted = {
                         id: user._id,
@@ -46,12 +52,12 @@ class UserController {
                         email: user.email,
                         address: user.address,
                         phoneNumber: user.phoneNumber,
-                        role: user.role
+                        role: user.role,
                     };
                     let accessToken = utils.generateAccessToken(userFormatted);
                     const loginResult = {
                         accessToken,
-                        userFormatted
+                        userFormatted,
                     };
                     return utils.sendRespond(res, accessToken, 200, Object.assign(Object.assign({}, loginResult), { status: 1 }));
                 }));
@@ -67,11 +73,16 @@ class UserController {
                     var _a, _b;
                     data += chunk.toString();
                     const body = JSON.parse(data);
-                    let emailExist = yield userService.findUserByEmail({ email: body.email });
+                    let emailExist = yield userService.findUserByEmail({
+                        email: body.email,
+                    });
                     if (emailExist._id !== undefined) {
                         res.setHeader("Content-Type", "application/json");
                         res.writeHead(404, utils_2.headers);
-                        res.write(JSON.stringify({ message: "Email đã tồn tại trong hệ thống", status: 0 }));
+                        res.write(JSON.stringify({
+                            message: "Email đã tồn tại trong hệ thống",
+                            status: 0,
+                        }));
                         res.end("\n");
                         return;
                     }
@@ -83,18 +94,22 @@ class UserController {
                         name: body.name,
                         address: body.address,
                         phoneNumber: body.phoneNumber,
-                        role: user_1.Role.client
+                        role: user_1.Role.client,
                     });
                     res.setHeader("Content-Type", "application/json");
                     res.writeHead(201, utils_2.headers);
-                    res.write(JSON.stringify({ user, accessToken: utils.generateAccessToken({
+                    res.write(JSON.stringify({
+                        user,
+                        accessToken: utils.generateAccessToken({
                             id: user._id,
                             email: user.email,
                             name: user.name,
-                            address: (_a = user.address) !== null && _a !== void 0 ? _a : '',
-                            phoneNumber: (_b = user.phoneNumber) !== null && _b !== void 0 ? _b : ' ',
-                            role: user_1.Role.client
-                        }), status: 1 }));
+                            address: (_a = user.address) !== null && _a !== void 0 ? _a : "",
+                            phoneNumber: (_b = user.phoneNumber) !== null && _b !== void 0 ? _b : " ",
+                            role: user_1.Role.client,
+                        }),
+                        status: 1,
+                    }));
                     res.end("\n");
                 }));
             }
@@ -108,9 +123,13 @@ class UserController {
                 req.on("data", (chunk) => __awaiter(this, void 0, void 0, function* () {
                     data += chunk.toString();
                     const body = JSON.parse(data);
-                    let emailExist = yield userService.findUserByEmail({ email: body.email });
+                    let emailExist = yield userService.findUserByEmail({
+                        email: body.email,
+                    });
                     if (emailExist._id !== undefined) {
-                        return yield utils.sendRespond(res, utils.getAccessToken(req), 404, { message: "Email đã tồn tại trong hệ thống" });
+                        return yield utils.sendRespond(res, utils.getAccessToken(req), 404, {
+                            message: "Email đã tồn tại trong hệ thống",
+                        });
                     }
                     const password = bcryptjs_1.default.hashSync(body.password, bcryptjs_1.default.genSaltSync(config_1.BCRYPT_SALT));
                     const admin = yield userService.createUser({
@@ -120,7 +139,7 @@ class UserController {
                         name: body.name,
                         address: body.address,
                         phoneNumber: body.phoneNumber,
-                        role: user_1.Role.admin
+                        role: user_1.Role.admin,
                     });
                     yield utils.sendRespond(res, utils.getAccessToken(req), 201, admin);
                 }));
@@ -144,10 +163,12 @@ class UserController {
                         email: user.email,
                         address: user.address,
                         phoneNumber: user.phoneNumber,
-                        role: user.role
+                        role: user.role,
                     };
                     if (user._id === undefined) {
-                        return utils.sendRespond(res, utils.getAccessToken(req), 404, { message: "Đã xảy ra lỗi" });
+                        return utils.sendRespond(res, utils.getAccessToken(req), 404, {
+                            message: "Đã xảy ra lỗi",
+                        });
                     }
                     utils.sendRespond(res, utils.generateAccessToken(userToken), 201, user);
                 }));
@@ -164,10 +185,15 @@ class UserController {
                     const body = JSON.parse(data);
                     const result = yield userService.deleteUser({ email: body.email });
                     if (result.email === body.email) {
-                        yield utils.sendRespond(res, utils.getAccessToken(req), 200, { message: "Đã xóa thành công", account: result });
+                        yield utils.sendRespond(res, utils.getAccessToken(req), 200, {
+                            message: "Đã xóa thành công",
+                            account: result,
+                        });
                     }
                     else
-                        yield utils.sendRespond(res, utils.getAccessToken(req), 404, { message: "Đã xảy ra lỗi" });
+                        yield utils.sendRespond(res, utils.getAccessToken(req), 404, {
+                            message: "Đã xảy ra lỗi",
+                        });
                 }));
             }
             catch (error) {
@@ -210,18 +236,24 @@ class UserController {
                     const body = JSON.parse(data);
                     let currentUser = yield utils.requestUser(req);
                     let email = currentUser.email;
-                    const password = bcryptjs_1.default.hashSync(body.password, bcryptjs_1.default.genSaltSync(config_1.BCRYPT_SALT));
-                    let user = yield userService.updateUser({ email: email, data: { password: password } });
+                    const passwordOld = bcryptjs_1.default.hashSync(body.passwordOld, bcryptjs_1.default.genSaltSync(config_1.BCRYPT_SALT));
+                    const passwordNew = bcryptjs_1.default.hashSync(body.passwordNew, bcryptjs_1.default.genSaltSync(config_1.BCRYPT_SALT));
+                    let user = yield userService.updateUser({
+                        email: email,
+                        data: { password: passwordNew },
+                    });
                     let userToken = {
                         id: user._id,
                         name: user.name,
                         email: user.email,
                         address: user.address,
                         phoneNumber: user.phoneNumber,
-                        role: user.role
+                        role: user.role,
                     };
                     if (user._id === undefined) {
-                        return utils.sendRespond(res, utils.getAccessToken(req), 404, { message: "Đã xảy ra lỗi" });
+                        return utils.sendRespond(res, utils.getAccessToken(req), 404, {
+                            message: "Đã xảy ra lỗi",
+                        });
                     }
                     utils.sendRespond(res, utils.generateAccessToken(userToken), 201, user);
                 }));
@@ -235,9 +267,11 @@ class UserController {
         });
         this.checkLogin = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const token = req.headers['authorization'].split(" ")[1];
+                const token = req.headers["authorization"].split(" ")[1];
                 const body = (0, jwt_decode_1.default)(token);
-                utils.sendRespond(res, utils.getAccessToken(req), 200, { currentUser: body.currentUser });
+                utils.sendRespond(res, utils.getAccessToken(req), 200, {
+                    currentUser: body.currentUser,
+                });
             }
             catch (error) {
                 utils.responseUnauthor(res, 400, { error: error });

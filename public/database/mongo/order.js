@@ -49,7 +49,9 @@ const orderSchema = new mongoose_1.Schema({
     },
     address: String,
     phoneNumber: String,
-    status: Number
+    status: Number,
+    size: [Number],
+    amount: [Number],
 }, {
     timestamps: true,
 });
@@ -66,6 +68,11 @@ class OrderDb {
             return new order_1.OrderInfo(order);
         });
     }
+    getOrderByIdUser(args) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield exports.orderModel.find({ userId: args.id }).populate('userId').populate('products').exec();
+        });
+    }
     getOrderByStatus(args) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield exports.orderModel.find({ status: args.status });
@@ -78,6 +85,11 @@ class OrderDb {
     }
     createOrder(args) {
         return __awaiter(this, void 0, void 0, function* () {
+            const infoUser = {
+                address: args.data.address,
+                phoneNumber: args.data.phoneNumber
+            };
+            yield user_1.UserModel.findByIdAndUpdate(args.data.userId, Object.assign({}, infoUser));
             return new order_1.OrderInfo(yield exports.orderModel.create(args.data));
         });
     }

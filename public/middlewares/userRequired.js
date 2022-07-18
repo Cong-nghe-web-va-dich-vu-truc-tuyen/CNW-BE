@@ -12,26 +12,26 @@ const userService = new userService_1.UserService();
 class Required {
     constructor() {
         this.userRequired = (req, res, next) => {
-            const token = req.headers['authorization'].split(" ")[1];
+            const token = req.headers["authorization"].split(" ")[1];
             let data = (0, jwt_decode_1.default)(token);
             if (data.currentUser["role"] === 0) {
                 return next(req, res);
             }
             let err = {
                 message: "Permission Denied",
-                status: 403
+                status: 403,
             };
             return utils.sendRespond(res, utils.getAccessToken(req), 403, err);
         };
         this.adminRequired = (req, res, next) => {
-            const token = req.headers['authorization'].split(" ")[1];
+            const token = req.headers["authorization"].split(" ")[1];
             let data = (0, jwt_decode_1.default)(token);
             if (data.currentUser["role"] === 1) {
                 return next(req, res);
             }
             let err = {
                 message: "Permission Denied",
-                status: 403
+                status: 403,
             };
             return utils.sendRespond(res, utils.getAccessToken(req), 403, err);
         };
@@ -44,25 +44,28 @@ class Required {
                 res.setHeader("Access-Control-Allow-Headers", "*");
                 res.writeHead(200, {
                     "Set-Cookie": `mycookie=test`,
-                    "Content-Type": `text/plain`
+                    "Content-Type": `text/plain`,
                 });
                 return res.end();
             }
             else if (req.method == "POST" || req.method == "GET") {
                 let err = {
                     message: "Hãy đăng nhập để  thực hiện chức năng này",
-                    status: 403
+                    status: 403,
                 };
-                if (req.headers['authorization'] === undefined || req.headers['authorization'] === 'Bearer null') {
+                if (req.headers["authorization"] === undefined ||
+                    req.headers["authorization"] === "Bearer null") {
                     return utils.responseUnauthor(res, 401, {
                         message: "Hãy đăng nhập để  thực hiện chức năng này",
-                        status: 401
+                        status: 401,
                     });
                 }
-                const token = req.headers['authorization'].split(" ")[1];
+                const token = req.headers["authorization"].split(" ")[1];
                 const body = (0, jwt_decode_1.default)(token);
                 console.log(body);
-                userService.findUserByEmail({ email: body.currentUser.email }).then((result) => {
+                userService
+                    .findUserByEmail({ email: body.currentUser.email })
+                    .then(result => {
                     if (result._id === undefined) {
                         utils.responseUnauthor(res, 401, err);
                     }

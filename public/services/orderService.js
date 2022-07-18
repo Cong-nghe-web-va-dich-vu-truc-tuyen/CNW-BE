@@ -37,5 +37,10 @@ class OrderService extends basicService_1.BasicService {
             return this.orderDB.createOrder(args);
         });
     }
+    getOrderByIdUser(args) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.orderDB.getOrderByIdUser(args);
+        });
+    }
 }
 exports.OrderService = OrderService;

@@ -16,15 +16,15 @@ const connectDatabase = (callback) => {
             username: config_1.DB_USER,
         },
         dbName: config_1.DB_NAME,
-        authSource: config_1.DB_NAME
+        authSource: config_1.DB_NAME,
     })
         .then(() => {
         console.log("Connect database successfully!");
         if (callback)
             callback();
     })
-        .catch((err) => console.error("MongoDB initial connection error: ", err));
-    mongoose_1.default.connection.on("error", (err) => {
+        .catch(err => console.error("MongoDB initial connection error: ", err));
+    mongoose_1.default.connection.on("error", err => {
         console.log("MongoDB error: ", err);
     });
 };

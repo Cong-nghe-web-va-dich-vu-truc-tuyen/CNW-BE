@@ -20,7 +20,7 @@ const connectDatabase = (callback?: () => void) => {
       if (callback) callback();
     })
     .catch(err => console.error("MongoDB initial connection error: ", err));
-
+    
   mongoose.connection.on("error", err => {
     console.log("MongoDB error: ", err);
   });
