@@ -10,6 +10,8 @@ export interface IOrder {
     status: OrderStatus;
     createdAt?: string;
     updatedAt?: string;
+    size: number[];
+    amount: number[];
 }
 
 export enum OrderStatus {
@@ -29,6 +31,8 @@ export enum OrderStatus {
     status: OrderStatus;
     createdAt?: string;
     updatedAt?: string;
+    size: number[];
+    amount: number[];
     constructor(arg?: any){
         this._id = arg?._id?? undefined;
         this.products = arg?.products?? [];
@@ -39,5 +43,7 @@ export enum OrderStatus {
         this.status = arg?.status ?? OrderStatus.pending;
         this.createdAt = arg?.createdAt ?? "";
         this.updatedAt = arg?.updatedAt ?? "";
+        this.size = arg?.size ?? [];
+        this.amount = arg?.amount ?? [];
     }
 }
